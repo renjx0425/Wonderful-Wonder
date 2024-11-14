@@ -1,0 +1,212 @@
+/* Basic reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f4f4f9;
+  color: #333;
+  padding: 20px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 24px;
+  color: #444;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+#perspective-selector, #scene-navigation, #reflection-prompts, #draw-your-own-auggie {
+  background: #ffffff;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+#scene-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+#scene-image-container {
+  flex-shrink: 0;
+}
+
+/* Styling for buttons */
+button {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin: 5px;
+  background-color: #007BFF;
+  color: white;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Styling for select dropdown */
+select {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+/* Character select container styling */
+#character-select-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#character-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+/* Reflection text area */
+#reflection-response {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  margin-top: 10px;
+  resize: vertical;
+}
+
+/* Style for the placeholder text specifically */
+#reflection-response::placeholder {
+  font-family: 'Poppins', sans-serif;
+  color: #999;
+}
+
+#reflection-prompts button {
+  margin-top: 10px;
+}
+
+#save-confirmation {
+  display: none;
+  color: green;
+  margin-left: 10px;
+}
+
+/* Draw Your Own Auggie Section */
+#draw-your-own-auggie {
+  margin-top: 20px;
+  text-align: center;
+}
+
+#drawing-canvas {
+  margin-top: 10px;
+  cursor: crosshair;
+  border: 1px solid #ddd;
+  background: url('images/Draw your own Auggie.png') center center no-repeat;
+  background-size: contain;
+}
+
+
+#drawing-controls {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+#color-picker {
+  padding: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#achievement-badges {
+  background: #ffffff;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+#badges-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.badge {
+  text-align: center;
+  width: 120px;
+  opacity: 0.3; /* Initial opacity for locked badges */
+  transition: opacity 0.3s ease, transform 0.3s ease; /* Transition effects */
+}
+
+.badge img {
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+}
+
+.badge p {
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.badge:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.badge[data-achieved="true"] {
+  opacity: 1; /* Full opacity for unlocked badges */
+}
+
+#badge-description {
+  margin-top: 10px;
+  font-style: italic;
+  color: #666;
+}
+
+.achieved-badge-animation {
+  animation: pop 0.5s ease-out forwards;
+}
+
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.celebrate {
+  animation: celebrate-animation 1.5s ease-out;
+}
+
+@keyframes celebrate-animation {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(5deg); }
+  75% { transform: rotate(-5deg); }
+}

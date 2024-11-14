@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wonder Perspective Tool</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <header>
+    <h1>Wonder Perspective Tool</h1>
+    <p>Explore character perspectives from *Wonder* by R.J. Palacio</p>
+  </header>
+
+  <main>
+    <!-- Perspective Selector with Character Icon Display -->
+    <section id="perspective-selector">
+        <label for="character-select">Choose a character:</label>
+        <div id="character-select-container">
+          <select id="character-select" onchange="updateCharacterImage()">
+            <option value="august">August</option>
+            <option value="via">Via</option>
+            <option value="jack">Jack</option>
+            <option value="summer">Summer</option>
+            <option value="julian">Julian</option>
+          </select>
+          <!-- Character Icon Display -->
+          <img id="character-icon" src="images/auggie_icon.png" alt="Character Icon">
+        </div>
+    </section>
+
+    <!-- Scene Navigation -->
+    <section id="scene-navigation">
+      <h2>Scenes</h2>
+      <button onclick="showScene(1)">Scene 1</button>
+      <button onclick="showScene(2)">Scene 2</button>
+      <button onclick="showScene(3)">Scene 3</button>
+    </section>
+
+    <!-- Scene Content Display -->
+    <section id="scene-content">
+    <div id="scene-text-container">
+      <h2 id="scene-title">Select a scene and character to view perspective</h2>
+      <p id="scene-description">...</p>
+    </div>
+    <div id="scene-image-container">
+      <img id="scene-image" src="" alt="Scene Image" style="display: none; width: 200px; height: auto;">
+    </div>
+  </section>
+  
+
+    <!-- Reflection Prompts -->
+    <section id="reflection-prompts">
+      <h2>Reflection</h2>
+      <p id="reflection-question">...</p>
+      <textarea id="reflection-response" placeholder="Write your thoughts here..." rows="4"></textarea>
+      <button onclick="saveReflection()">Save Reflection</button>
+      <span id="save-confirmation" style="display: none; color: green; margin-left: 10px;">Saved!</span>
+    </section>
+  </main>
+
+  <!-- Draw Your Own Auggie Section -->
+  <section id="draw-your-own-auggie">
+    <h2>Draw Your Own Auggie</h2>
+    <canvas id="drawing-canvas" width="300" height="300" style="border: 1px solid #ddd;"></canvas>
+    <div id="drawing-controls">
+      <label for="color-picker">Choose Color:</label>
+      <input type="color" id="color-picker" value="#000000">
+      <button onclick="clearCanvas()">Clear Drawing</button>
+    </div>
+  </section>
+</main>
+
+<!-- Achievement Badges Section -->
+<section id="achievement-badges">
+  <h2>Achievements</h2>
+  <div id="badges-container">
+    <div class="badge" id="perspective-explorer-badge" data-achievement="View all perspectives in a scene" style="opacity: 0.3;">
+      <img src="images/perspective_explorer.png" alt="Perspective Explorer Badge">
+      <p>Perspective Explorer</p>
+    </div>
+    <div class="badge" id="reflection-master-badge" data-achievement="Complete all reflections" style="opacity: 0.3;">
+      <img src="images/reflection_master.png" alt="Reflection Master Badge">
+      <p>Reflection Master</p>
+    </div>
+    <div class="badge" id="creative-artist-badge" data-achievement="Draw on the canvas" style="opacity: 0.3;">
+      <img src="images/creative_artist.png" alt="Creative Artist Badge">
+      <p>Creative Artist</p>
+    </div>
+  </div>
+  <p id="badge-description" style="text-align: center; font-size: 14px; color: #666;">Hover over a badge to see its requirements.</p>
+</section>
+
+
+<script src="script.js"></script>
+</body>
+</html>
+
+
