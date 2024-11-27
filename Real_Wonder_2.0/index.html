@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wonder Perspective Tool</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <header>
+    <h1>Wonder Perspective Tool</h1>
+    <p>Explore character perspectives from *Wonder* by R.J. Palacio</p>
+  </header>
+
+  <main>
+    <!-- Perspective Selector with Character Icon Display -->
+    <section id="perspective-selector">
+        <label for="character-select">Choose a character:</label>
+        <div id="character-select-container">
+          <select id="character-select" onchange="updateCharacterImage()">
+            <option value="august">August</option>
+            <option value="via">Via</option>
+            <option value="jack">Jack</option>
+            <option value="summer">Summer</option>
+            <option value="julian">Julian</option>
+          </select>
+          <!-- Character Icon Display -->
+          <img id="character-icon" src="images/auggie_icon.png" alt="Character Icon">
+        </div>
+    </section>
+
+   <!-- Scene Navigation -->
+  <section id="scene-navigation">
+    <h2>Scenes</h2>
+    <button onclick="showScene(1)">Scene 1</button>
+    <button onclick="showScene(2)">Scene 2</button>
+    <button onclick="showScene(3)">Scene 3</button>
+  </section>
+
+  <!-- Parallel Perspectives Section -->
+  <section id="parallel-passages">
+    <h2>Parallel Perspectives</h2>
+    <div id="passages-container">
+      <!-- Left Passage (Auggie's Perspective) -->
+      <div class="passage" id="left-passage">
+        <h3>Auggie's Perspective</h3>
+        <p id="august-text">
+          As I stepped into the lunchroom, the sound hit me first—a roaring cacophony of clanging trays, overlapping conversations, and laughter that seemed to echo off the walls. 
+          <span id="evidence1" class="draggable" draggable="true" ondragstart="drag(event)">
+            "My heart started pounding, the way it always did when I entered a crowded space."
+          </span>
+          My heart started pounding, the way it always did when I entered a crowded space. The lunchroom seemed impossibly big, but at the same time, it felt like there wasn’t enough space for me.
+          <span id="evidence2" class="draggable" draggable="true" ondragstart="drag(event)">
+            "I gripped my lunch bag so tightly that my knuckles turned white."
+          </span>
+          I gripped my lunch bag so tightly that my knuckles turned white, holding onto it like it was a lifeline. The air felt thick, heavy with tension, as I scanned the room. Groups of kids were clustered at tables, their voices blending into a buzz that felt like static in my ears.
+          <span id="evidence3" class="draggable" draggable="true" ondragstart="drag(event)">
+            "I looked down at my sneakers, willing myself to disappear."
+          </span>
+          I looked down at my sneakers, willing myself to disappear. But I couldn’t just stand there forever. Taking a shaky breath, I forced myself to move. My legs felt like lead as I walked, scanning for a table where I could sit without feeling like I was on display. There was an empty table near the corner, but the thought of sitting there alone, with everyone staring at me, made my stomach churn.
+          <span id="evidence4" class="draggable" draggable="true" ondragstart="drag(event)">
+            "Finally, I spotted a table near the edge of the room with only one other person sitting at it."
+          </span>
+          Finally, I spotted a table near the edge of the room with only one other person sitting at it. It was Summer.
+        </p>
+      </div>
+  
+      <!-- Right Passage (Summer's Expanded Perspective) -->
+      <div class="passage" id="right-passage">
+        <h3>Summer's Perspective</h3>
+        <p id="summer-text">
+          I entered the lunchroom, the familiar din of clanging trays and overlapping conversations greeting me like it always did.
+          <span id="evidence5" class="draggable" draggable="true" ondragstart="drag(event)">
+            "My eyes casually scanned the room."
+          </span>
+          My eyes casually scanned the room. My table was right where it always was, surrounded by my usual friends, who were already deep in a lively debate about some YouTube video we’d all watched.
+          <span id="evidence6" class="draggable" draggable="true" ondragstart="drag(event)">
+            "I noticed August standing near the edge of the room, clutching his lunch bag so tightly I thought it might rip."
+          </span>
+          I noticed August standing near the edge of the room, clutching his lunch bag so tightly I thought it might rip. He wasn’t moving, just staring out at the crowded tables like he was facing a battlefield. My friends waved me over, but I hesitated. I saw August’s eyes darting around the room, searching for something—or someone—but finding nothing. His shoulders slumped just slightly, but it was enough for me to notice.
+          <span id="evidence7" class="draggable" draggable="true" ondragstart="drag(event)">
+            "I remembered my first time walking into this lunchroom."
+          </span>
+          I remembered my first time walking into this lunchroom. I hadn’t known where to sit either. It was just after my dad died, and I’d transferred schools. Nobody had pointed or whispered, but I’d felt the weight of their stares. I’d felt like an alien dropped into a world that didn’t belong to me. That’s why, when I saw August standing there, looking like a lost balloon caught in a corner, I couldn’t just walk away.
+          <span id="evidence8" class="draggable" draggable="true" ondragstart="drag(event)">
+            "The laughter from my friends floated toward me, but I knew they wouldn’t really understand—not the way I did."
+          </span>
+          The laughter from my friends floated toward me, but I knew they wouldn’t really understand—not the way I did. It didn’t matter, though. Taking a deep breath, I turned and walked toward August instead. The closer I got, the more I could see the tension in his face. His eyes flicked toward me, then quickly back to the floor.
+          <span id="evidence9" class="draggable" draggable="true" ondragstart="drag(event)">
+            "For a second, I thought he might tell me to go away."
+          </span>
+          For a second, I thought he might tell me to go away. His face tightened, like he was bracing himself for some kind of insult. I kept my voice light. “Mind if I sit here?”
+        </p>
+      </div>
+    </div>
+  
+    <!-- Emotion Categories -->
+    <div class="emotion-category" id="fear">
+      <h3>Fear</h3>
+      <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <p>Drop evidence of fear here</p>
+      </div>
+    </div>
+  
+    <div class="emotion-category" id="empathy">
+      <h3>Empathy</h3>
+      <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <p>Drop evidence of empathy here</p>
+      </div>
+    </div>
+  </section>
+  </main>
+
+<!-- Reflection Prompts -->
+<section id="reflection-prompts">
+  <h2>Reflection</h2>
+  <p id="reflection-question">...</p>
+  <textarea id="reflection-response" placeholder="Write your thoughts here..." rows="4"></textarea>
+  <button onclick="saveReflection()">Save Reflection</button>
+  <span id="save-confirmation" style="display: none; color: green; margin-left: 10px;">Saved!</span>
+</section>
+
+<!-- Draw Your Own Auggie Section -->
+<section id="draw-your-own-auggie">
+  <h2>Draw Your Own Auggie</h2>
+  <canvas id="drawing-canvas" width="300" height="300" style="border: 1px solid #ddd;"></canvas>
+  <div id="drawing-controls">
+    <label for="color-picker">Choose Color:</label>
+    <input type="color" id="color-picker" value="#000000">
+    <button onclick="clearCanvas()">Clear Drawing</button>
+  </div>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>
