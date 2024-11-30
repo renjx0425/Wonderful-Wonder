@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wonder Perspective Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script>
+        let draggedEmoji = null;
+
+        // Function to handle drag start
+        function onDragStart(event, emoji) {
+            draggedEmoji = emoji;
+        }
+
+        // Function to handle drop on paragraph
+        function onDrop(event, paragraphId) {
+            event.preventDefault();
+            if (draggedEmoji) {
+                const tagContainer = document.getElementById(`tags-${paragraphId}`);
+
+                // Create and add emoji tag
+                const tag = document.createElement("span");
+                tag.className =
+                    "inline-block text-2xl cursor-pointer";
+                tag.innerText = draggedEmoji;
+                tagContainer.appendChild(tag);
+
+                draggedEmoji = null; // Reset the dragged emoji
+            }
+        }
+
+        // Function to allow drop
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+        // Function to handle sentence/paragraph hover highlighting
+        function highlightCorresponding(sentenceId, isHovering) {
+            const sentence = document.getElementById(sentenceId);
+            if (isHovering) {
+                sentence.classList.add("bg-yellow-100", "ring-1", "ring-yellow-300");
+            } else {
+                sentence.classList.remove("bg-yellow-100", "ring-1", "ring-yellow-300");
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gradient-to-b from-blue-100 to-blue-50 font-sans">
+    <div class="max-w-7xl mx-auto py-8 px-4">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-extrabold text-blue-800">Wonder Perspective Tool</h1>
+            <p class="text-blue-700 text-lg mt-2">Explore character perspectives from <em>Wonder</em> by R.J. Palacio</p>
+        </div>
+
+        <!-- Floating Toolkit -->
+        <div class="fixed top-16 right-4 bg-white shadow-lg rounded-lg p-4 w-64 border border-gray-200">
+            <h3 class="text-lg font-bold text-blue-800 mb-4">Emotion Tagging</h3>
+            <div class="grid grid-cols-3 gap-4">
+                <!-- Draggable emojis -->
+                <span class="text-3xl cursor-pointer" draggable="true" ondragstart="onDragStart(event, '😊')">😊</span>
+                <span class="text-3xl cursor-pointer" draggable="true" ondragstart="onDragStart(event, '😢')">😢</span>
+                <span class="text-3xl cursor-pointer" draggable="true" ondragstart="onDragStart(event, '😲')">😲</span>
+                <span class="text-3xl cursor-pointer" draggable="true" ondragstart="onDragStart(event, '😡')">😡</span>
+                <span class="text-3xl cursor-pointer" draggable="true" ondragstart="onDragStart(event, '😨')">😨</span>
+            </div>
+            <p class="mt-4 text-sm text-gray-600">Drag and drop an emoji onto the paragraph to tag it.</p>
+        </div>
+
+        <!-- Parallel Perspectives -->
+        <div class="bg-white shadow-lg rounded-lg p-8 mt-20">
+            <h3 class="text-2xl font-bold text-blue-800 mb-6">Parallel Perspectives</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Auggie's Perspective -->
+                <div class="p-4 border rounded-lg bg-blue-50">
+                    <h4 class="text-xl font-semibold text-blue-800 mb-4">Auggie’s Perspective</h4>
+                    <div class="flex items-start mb-4">
+                        <div id="tags-p1-auggie" class="flex flex-col items-center pr-4"></div>
+                        <p id="p1-auggie" class="hover:underline cursor-pointer flex-1" ondragover="allowDrop(event)"
+                            ondrop="onDrop(event, 'p1-auggie')"
+                            onmouseover="highlightCorresponding('p1-summer', true)"
+                            onmouseout="highlightCorresponding('p1-summer', false)">
+                            The noise of the lunchroom hit me like a wave, crashing and relentless. My chest tightened, my
+                            grip on my lunch bag turning my fingers white. If I kept staring at the floor, maybe they
+                            wouldn’t see me. Maybe I could vanish.
+                        </p>
+                    </div>
+                    <div class="flex items-start mb-4">
+                        <div id="tags-p2-auggie" class="flex flex-col items-center pr-4"></div>
+                        <p id="p2-auggie" class="hover:underline cursor-pointer flex-1" ondragover="allowDrop(event)"
+                            ondrop="onDrop(event, 'p2-auggie')"
+                            onmouseover="highlightCorresponding('p2-summer', true)"
+                            onmouseout="highlightCorresponding('p2-summer', false)">
+                            But I knew I couldn’t. Mr. Tushman’s words echoed in my head: “You’ve got to be brave, August. One step at a time.” Brave felt like a faraway thing, like something other kids were born with but I had to fake.
+                            <!-- Thought Bubble Icon -->
+                            <button onclick="toggleReflectionPopup()" class="ml-2">
+                                💭
+                            </button>                            
+                        </p>
+                    </div>
+                    
+                    <!-- Pop-Up Reflection Question -->
+                    <div id="reflection-popup" class="hidden fixed top-[240px] left-8 bg-white shadow-lg rounded-lg p-4 border border-gray-300 w-72 z-50">
+                        <h3 class="text-lg font-bold text-blue-800">💭 Reflection</h3>
+                        <p class="text-sm text-gray-700 mt-2">Have you ever felt like bravery was something you had to “fake” in a difficult situation? How did you push through those feelings, and what helped you take that first step?</p>
+                        <textarea class="w-full mt-3 p-2 border border-gray-300 rounded-md text-sm" rows="4" placeholder="Write your thoughts here..."></textarea>
+                    
+                        <!-- Audio Recording Feature -->
+                        <div id="audio-reflection" class="mt-4">
+                            <button id="recordButton" onclick="startRecording()" class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm hover:bg-blue-600">
+                                🎤 Start Recording
+                            </button>
+                            <button id="stopButton" onclick="stopRecording()" class="hidden px-3 py-1 bg-red-500 text-white rounded-md text-sm hover:bg-red-600">
+                                🛑 Stop Recording
+                            </button>
+                            <p id="recordingStatus" class="text-sm text-gray-600 mt-2 hidden">Recording... Please speak your reflection!</p>
+                            <audio id="audioPlayback" controls class="mt-3 hidden"></audio>
+                        </div>
+                    
+                        <div class="text-sm text-gray-600 mt-2">
+                            🌟 You’ve earned <strong>1 badge</strong> so far! Complete more reflections to unlock the “Bravery Builder” badge!
+                        </div>
+                        <button onclick="toggleReflectionPopup()" class="mt-3 px-3 py-1 bg-red-500 text-white rounded-md text-sm hover:bg-red-600">
+                            Close
+                        </button>
+                    </div>
+                    
+                    <script>
+                        function toggleReflectionPopup() {
+                            const popup = document.getElementById("reflection-popup");
+                            popup.classList.toggle("hidden");
+                        }
+                    </script>
+                    
+                    <div class="flex items-start mb-4">
+                        <div id="tags-p3-auggie" class="flex flex-col items-center pr-4"></div>
+                        <p id="p3-auggie" class="hover:underline cursor-pointer flex-1" ondragover="allowDrop(event)"
+                            ondrop="onDrop(event, 'p3-auggie')"
+                            onmouseover="highlightCorresponding('p3-summer', true)"
+                            onmouseout="highlightCorresponding('p3-summer', false)">
+                            Then I saw Summer. She was sitting alone, unwrapping her sandwich with the kind of ease I could
+                            only wish for. Should I? What if she didn’t want me there? What if she looked at me like
+                            everyone else did—like I didn’t belong?
+                        </p>
+                    </div>
+                    <div class="flex items-start mb-4">
+                        <div id="tags-p4-auggie" class="flex flex-col items-center pr-4"></div>
+                        <p id="p4-auggie" class="hover:underline cursor-pointer flex-1" ondragover="allowDrop(event)"
+                            ondrop="onDrop(event, 'p4-auggie')"
+                            onmouseover="highlightCorresponding('p4-summer', true)"
+                            onmouseout="highlightCorresponding('p4-summer', false)">
+                            Before I could stop myself, I started walking. My legs felt heavy, my heart pounding so loudly I
+                            was sure everyone could hear it.
+                        </p>
+                    </div>
+                    <div class="flex items-start mb-4">
+                        <div id="tags-p5-auggie" class="flex flex-col items-center pr-4"></div>
+                        <p id="p5-auggie" class="hover:underline cursor-pointer flex-1" ondragover="allowDrop(event)"
+                            ondrop="onDrop(event, 'p5-auggie')"
+                            onmouseover="highlightCorresponding('p5-summer', true)"
+                            onmouseout="highlightCorresponding('p5-summer', false)">
+                            When I got closer, she looked up, her eyes meeting mine. I froze.
+                        </p>
+                    </div>
+                    <div class="flex items-start mb-4">
+                        <div id="tags-p6-auggie" class="flex flex-col items-center pr-4"></div>
+                        <p id="p6-auggie" class="hover:underline cursor-pointer flex-1" ondragover="allowDrop(event)"
+                            ondrop="onDrop(event, 'p6-auggie')"
+                            onmouseover="highlightCorresponding('p6-summer', true)"
+                            onmouseout="highlightCorresponding('p6-summer', false)">
+                            But she smiled. It wasn’t the kind of smile people gave because they felt sorry for me. It was
+                            real, small and warm, like a flicker of light in a dark room.
+                        </p>
+                    </div>
+                    <div class="flex items-start mb-4">
+                        <div id="tags-p7-auggie" class="flex flex-col items-center pr-4"></div>
+                        <p id="p7-auggie" class="hover:underline cursor-pointer flex-1" ondragover="allowDrop(event)"
+                            ondrop="onDrop(event, 'p7-auggie')"
+                            onmouseover="highlightCorresponding('p7-summer', true)"
+                            onmouseout="highlightCorresponding('p7-summer', false)">
+                            As I sat down, the room didn’t feel so suffocating anymore. Summer started talking about the
+                            spaghetti, making a joke about how it might be alive. I didn’t know what to say at first, but
+                            she didn’t seem to mind.
+                        </p>
+                    </div>
+                    <div class="flex items-start mb-4">
+                        <div id="tags-p8-auggie" class="flex flex-col items-center pr-4"></div>
+                        <p id="p8-auggie" class="hover:underline cursor-pointer flex-1" ondragover="allowDrop(event)"
+                            ondrop="onDrop(event, 'p8-auggie')"
+                            onmouseover="highlightCorresponding('p8-summer', true)"
+                            onmouseout="highlightCorresponding('p8-summer', false)">
+                            Little by little, the knot in my chest loosened. I even smiled when she started guessing what
+                            the juice boxes were really made of. For the first time in what felt like forever, I wasn’t
+                            just the kid people stared at. I was just a kid, sitting at a table with a friend.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Summer's Perspective -->
+                <div class="p-4 border rounded-lg bg-blue-50">
+                    <h4 class="text-xl font-semibold text-blue-800 mb-4">Summer’s Perspective</h4>
+                    <div class="flex items-start mb-4">
+                        <div id="tags-p1-summer" class="flex flex-col items-center pr-4"></div>
+                        <p id="p1-summer" class="hover:underline cursor-pointer flex-1" ondragover="allowDrop(event)"
+                            ondrop="onDrop(event, 'p1-summer')"
+                            onmouseover="highlightCorresponding('p1-auggie', true)"
+                            onmouseout="highlightCorresponding('p1-auggie', false)">
+                            The clatter of trays and chatter of voices was as familiar as the worn-out sneakers on my
+                            feet, but today, it felt a little different. As I scanned the room, my eyes landed on August.
+                            He looked like a tiny ship in a stormy sea, clutching his lunch bag like it was his only
+                            anchor.
+                        </p>
+                    </div>
+                    <div class="flex items-start mb-4">
+                        <div id="tags-p2-summer" class="flex flex-col items-center pr-4"></div>
+                        <p id="p2-summer" class="hover:underline cursor-pointer flex-1" ondragover="allowDrop(event)"
+                            ondrop="onDrop(event, 'p2-summer')"
+                            onmouseover="highlightCorresponding('p2-auggie', true)"
+                            onmouseout="highlightCorresponding('p2-auggie', false)">
+                            I remembered my first lunch at this school, just after Dad died. I’d felt like a ghost, floating
+                            through hallways where nobody saw me. The whispers back then weren’t cruel—they were worse. They
+                            were pitying.
+                        </p>
+                    </div>
+                    <div class="flex items-start mb-4">
+                        <div id="tags-p3-summer" class="flex flex-col items-center pr-4"></div>
+                        <p id="p3-summer" class="hover:underline cursor-pointer flex-1" ondragover="allowDrop(event)"
+                            ondrop="onDrop(event, 'p3-summer')"
+                            onmouseover="highlightCorresponding('p3-auggie', true)"
+                            onmouseout="highlightCorresponding('p3-auggie', false)">
+                            So when I saw August standing there, frozen in place, I couldn’t just walk away. I knew the
+                            weight of those stares, the sharp edge of silence that cuts deeper than words.
+                        </p>
+                    </div>
+                    <div class="flex items-start mb-4">
+                        <div id="tags-p4-summer" class="flex flex-col items-center pr-4"></div>
+                        <p id="p4-summer" class="hover:underline cursor-pointer flex-1" ondragover="allowDrop(event)"
+                            ondrop="onDrop(event, 'p4-summer')"
+                            onmouseover="highlightCorresponding('p4-auggie', true)"
+                            onmouseout="highlightCorresponding('p4-auggie', false)">
+                            “Hey, Summer!” my friends called out. I glanced at them, mid-laugh over some viral prank video.
+                            They’d understand eventually—at least, I hoped they would.
+                        </p>
+                    </div>
+                    <div class="flex items-start mb-4">
+                        <div id="tags-p5-summer" class="flex flex-col items-center pr-4"></div>
+                        <p id="p5-summer" class="hover:underline cursor-pointer flex-1" ondragover="allowDrop(event)"
+                            ondrop="onDrop(event, 'p5-summer')"
+                            onmouseover="highlightCorresponding('p5-auggie', true)"
+                            onmouseout="highlightCorresponding('p5-auggie', false)">
+                            I walked toward August, his eyes flicking nervously around the room. When I set my tray down,
+                            his shoulders stiffened.
+                        </p>
+                    </div>
+                    <div class="flex items-start mb-4">
+                        <div id="tags-p6-summer" class="flex flex-col items-center pr-4"></div>
+                        <p id="p6-summer" class="hover:underline cursor-pointer flex-1" ondragover="allowDrop(event)"
+                            ondrop="onDrop(event, 'p6-summer')"
+                            onmouseover="highlightCorresponding('p6-auggie', true)"
+                            onmouseout="highlightCorresponding('p6-auggie', false)">
+                            “Mind if I sit here?” I asked.
+                        </p>
+                    </div>
+                    <div class="flex items-start mb-4">
+                        <div id="tags-p7-summer" class="flex flex-col items-center pr-4"></div>
+                        <p id="p7-summer" class="hover:underline cursor-pointer flex-1" ondragover="allowDrop(event)"
+                            ondrop="onDrop(event, 'p7-summer')"
+                            onmouseover="highlightCorresponding('p7-auggie', true)"
+                            onmouseout="highlightCorresponding('p7-auggie', false)">
+                            He didn’t say much at first, just kept looking at me like I might disappear if he blinked too
+                            long. But as I joked about the mystery spaghetti and our science classroom’s constant vinegar
+                            smell, he laughed—just barely. It was small, a crack in the walls he’d built, but it was enough.
+                            <!-- Thought Bubble Icon -->
+                            <button onclick="toggleReflectionPopup2()" class="ml-2">
+                                💭
+                            </button>
+                        </p>
+                    </div>
+                    
+                    <!-- Pop-Up Reflection Question for Summer -->
+                    <div id="reflection-popup2" class="hidden fixed top-[300px] right-8 bg-white shadow-lg rounded-lg p-4 border border-gray-300 w-72 z-50">
+                        <h3 class="text-lg font-bold text-blue-800">💭 Reflection</h3>
+                        <p class="text-sm text-gray-700 mt-2">Summer took the initiative to sit with Auggie, even though her friends might not have understood her choice at first. How can stepping outside your comfort zone or social group help create new connections?</p>
+                        <textarea class="w-full mt-3 p-2 border border-gray-300 rounded-md text-sm" rows="4" placeholder="Write your thoughts here..."></textarea>
+                    
+                        <!-- Audio Recording Feature -->
+                        <div id="audio-reflection" class="mt-4">
+                            <button id="recordButton" onclick="startRecording()" class="px-3 py-1 bg-blue-500 text-white rounded-md text-sm hover:bg-blue-600">
+                                🎤 Start Recording
+                            </button>
+                            <button id="stopButton" onclick="stopRecording()" class="hidden px-3 py-1 bg-red-500 text-white rounded-md text-sm hover:bg-red-600">
+                                🛑 Stop Recording
+                            </button>
+                            <p id="recordingStatus" class="text-sm text-gray-600 mt-2 hidden">Recording... Please speak your reflection!</p>
+                            <audio id="audioPlayback" controls class="mt-3 hidden"></audio>
+                        </div>
+                    
+                        <div class="text-sm text-gray-600 mt-2">
+                            🌟 You’ve earned <strong>2 badges</strong> so far! Complete more reflections to unlock the “Bravery Builder” badge!
+                        </div>
+                        <button onclick="toggleReflectionPopup2()" class="mt-3 px-3 py-1 bg-red-500 text-white rounded-md text-sm hover:bg-red-600">
+                            Close
+                        </button>
+                    </div>
+                    
+                    <script>
+                        // JavaScript for toggling Summer's reflection popup
+                        function toggleReflectionPopup2() {
+                            const popup2 = document.getElementById("reflection-popup2");
+                            popup2.classList.toggle("hidden");
+                        }
+                    </script>
+                    <div class="flex items-start mb-4">
+                        <div id="tags-p8-summer" class="flex flex-col items-center pr-4"></div>
+                        <p id="p8-summer" class="hover:underline cursor-pointer flex-1" ondragover="allowDrop(event)"
+                            ondrop="onDrop(event, 'p8-summer')"
+                            onmouseover="highlightCorresponding('p8-auggie', true)"
+                            onmouseout="highlightCorresponding('p8-auggie', false)">
+                            And as we sat there, swapping stories about bad movies and worse cafeteria food, I realized I
+                            needed this, too. Maybe we were both just trying to feel a little less invisible.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Drag-and-Drop Activity Section -->
+<div class="bg-white shadow-lg rounded-lg p-8 mt-8">
+    <h3 class="text-2xl font-bold text-blue-800 mb-6">Interactive Emotion-Based Reflection Activity</h3>
+    <p class="text-gray-700 mb-4">
+        Use the emotions from the story to complete these sentences. Drag and drop the emotions into the blank spaces.
+    </p>
+    <!-- Draggable Words -->
+    <div id="emotion-words" class="grid grid-cols-3 gap-2 mb-4">
+        <div class="bg-yellow-100 p-2 rounded-md shadow-md cursor-pointer" draggable="true" 
+            ondragstart="onDragStart(event, 'brave')">brave</div>
+        <div class="bg-yellow-100 p-2 rounded-md shadow-md cursor-pointer" draggable="true" 
+            ondragstart="onDragStart(event, 'scared')">scared</div>
+        <div class="bg-yellow-100 p-2 rounded-md shadow-md cursor-pointer" draggable="true" 
+            ondragstart="onDragStart(event, 'nervous')">nervous</div>
+        <div class="bg-yellow-100 p-2 rounded-md shadow-md cursor-pointer" draggable="true" 
+            ondragstart="onDragStart(event, 'hopeful')">hopeful</div>
+        <div class="bg-yellow-100 p-2 rounded-md shadow-md cursor-pointer" draggable="true" 
+            ondragstart="onDragStart(event, 'relieved')">relieved</div>
+        <div class="bg-yellow-100 p-2 rounded-md shadow-md cursor-pointer" draggable="true" 
+            ondragstart="onDragStart(event, 'happy')">happy</div>
+    </div>
+
+    <!-- Reflection Sentences -->
+    <div class="space-y-4">
+        <p id="sentence1" class="text-gray-800 bg-gray-50 p-4 rounded-md border border-gray-300"
+            ondragover="allowDrop(event)" ondrop="onDropSentence(event, 'sentence1')">
+            I felt <span class="text-blue-500">[drag emotion here]</span> when I tried sitting with someone new.
+        </p>
+        <p id="sentence2" class="text-gray-800 bg-gray-50 p-4 rounded-md border border-gray-300"
+            ondragover="allowDrop(event)" ondrop="onDropSentence(event, 'sentence2')">
+            Stepping outside my comfort zone made me feel <span class="text-blue-500">[drag emotion here]</span>.
+        </p>
+        <p id="sentence3" class="text-gray-800 bg-gray-50 p-4 rounded-md border border-gray-300"
+            ondragover="allowDrop(event)" ondrop="onDropSentence(event, 'sentence3')">
+            Talking to someone new helped me feel <span class="text-blue-500">[drag emotion here]</span>.
+        </p>
+    </div>
+    <button onclick="clearSentences()" class="mt-6 px-4 py-2 bg-red-500 text-white rounded-md text-sm hover:bg-red-600">
+        Clear Sentences
+    </button>
+</div>
+
+<script>
+    let draggedWord = '';
+
+    // Function to handle drag start
+    function onDragStart(event, word) {
+        draggedWord = word;
+    }
+
+    // Function to allow drop
+    function allowDrop(event) {
+        event.preventDefault();
+    }
+
+    // Function to handle drop into a sentence
+    function onDropSentence(event, sentenceId) {
+        event.preventDefault();
+        const sentence = document.getElementById(sentenceId);
+        const placeholder = sentence.querySelector('.text-blue-500');
+        if (placeholder) {
+            placeholder.textContent = draggedWord;
+            placeholder.classList.remove('text-blue-500');
+            placeholder.classList.add('text-green-500');
+            draggedWord = ''; // Reset the dragged word
+        }
+    }
+
+    // Function to clear sentences
+    function clearSentences() {
+        document.querySelectorAll('.text-green-500').forEach(el => {
+            el.textContent = '[drag emotion here]';
+            el.classList.remove('text-green-500');
+            el.classList.add('text-blue-500');
+        });
+    }
+</script>
+        
+    </div>
+</body>
+
+</html>
